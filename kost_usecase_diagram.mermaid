@@ -1,0 +1,119 @@
+graph LR
+    subgraph System["📋 Sistem Manajemen Kost"]
+        direction TB
+        
+        %% Frontend Use Cases
+        subgraph Frontend["🌐 Frontend"]
+            UC1["📄 Lihat Informasi<br/>Kost"]
+            UC2["🏠 Lihat Ketersediaan<br/>Kamar"]
+        end
+        
+        %% Authentication Use Cases
+        subgraph Auth["🔐 Authentication"]
+            UC3["🔑 Login Admin"]
+            UC4["🚪 Logout Admin"]
+            UC5["✅ Autentikasi<br/>Admin"]
+        end
+        
+        %% Admin Management Use Cases
+        subgraph AdminMgmt["👥 Admin Management"]
+            UC6["⚙️ Kelola Admin"]
+            UC7["📊 Lihat Dashboard"]
+        end
+        
+        %% Data Management Use Cases
+        subgraph DataMgmt["📋 Data Management"]
+            UC8["👤 Kelola Data<br/>Penghuni"]
+            UC9["🏠 Kelola Data<br/>Kamar"]
+            UC10["📦 Kelola Data<br/>Barang"]
+            UC11["🔗 Kelola Relasi<br/>Kamar-Penghuni"]
+            UC12["🎒 Kelola Barang<br/>Bawaan"]
+        end
+        
+        %% Transaction Use Cases
+        subgraph Transaction["💰 Transaction"]
+            UC13["📋 Kelola Tagihan"]
+            UC14["💳 Kelola Pembayaran"]
+            UC15["📦 Proses Pindah<br/>Kamar"]
+            UC16["🚪 Proses Keluar<br/>Kost"]
+        end
+        
+        %% Reporting Use Cases
+        subgraph Reporting["📊 Reporting"]
+            UC17["📈 Lihat Laporan"]
+            UC18["📊 Lihat Statistik"]
+        end
+    end
+    
+    %% Actors as stick figures
+    User["👤<br/>Pengunjung/<br/>Calon Penghuni"]
+    Admin["👨‍💼<br/>Admin"]
+    SuperAdmin["👨‍💻<br/>Super Admin"]
+    
+    %% Actor-Use Case Relationships
+    %% Pengunjung/Calon Penghuni
+    User --> UC1
+    User --> UC2
+    
+    %% Admin (includes all admin functions)
+    Admin --> UC3
+    Admin --> UC4
+    Admin --> UC7
+    Admin --> UC8
+    Admin --> UC9
+    Admin --> UC10
+    Admin --> UC11
+    Admin --> UC12
+    Admin --> UC13
+    Admin --> UC14
+    Admin --> UC15
+    Admin --> UC16
+    Admin --> UC17
+    Admin --> UC18
+    
+    %% Super Admin (has all admin functions plus admin management)
+    SuperAdmin --> UC3
+    SuperAdmin --> UC4
+    SuperAdmin --> UC6
+    SuperAdmin --> UC7
+    SuperAdmin --> UC8
+    SuperAdmin --> UC9
+    SuperAdmin --> UC10
+    SuperAdmin --> UC11
+    SuperAdmin --> UC12
+    SuperAdmin --> UC13
+    SuperAdmin --> UC14
+    SuperAdmin --> UC15
+    SuperAdmin --> UC16
+    SuperAdmin --> UC17
+    SuperAdmin --> UC18
+    
+    %% Include relationships
+    UC3 -.->|include| UC5
+    UC7 -.->|include| UC5
+    UC8 -.->|include| UC5
+    UC9 -.->|include| UC5
+    UC10 -.->|include| UC5
+    UC11 -.->|include| UC5
+    UC12 -.->|include| UC5
+    UC13 -.->|include| UC5
+    UC14 -.->|include| UC5
+    UC15 -.->|include| UC5
+    UC16 -.->|include| UC5
+    UC17 -.->|include| UC5
+    UC18 -.->|include| UC5
+    
+    %% Extend relationships
+    UC15 -.->|extend| UC11
+    UC16 -.->|extend| UC11
+    UC14 -.->|extend| UC13
+    
+    %% Styling
+    classDef actor fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
+    classDef usecase fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    classDef system fill:#e8f5e8,stroke:#388e3c,stroke-width:3px,color:#000
+    classDef subgraph fill:#f5f5f5,stroke:#666,stroke-width:2px
+    
+    class User,Admin,SuperAdmin actor
+    class UC1,UC2,UC3,UC4,UC5,UC6,UC7,UC8,UC9,UC10,UC11,UC12,UC13,UC14,UC15,UC16,UC17,UC18 usecase
+    class System,Frontend,Auth,AdminMgmt,DataMgmt,Transaction,Reporting subgraph
